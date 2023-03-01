@@ -2,39 +2,47 @@
 #include <cstdint>
 #include "alg.h"
 
+
 bool checkPrime(uint64_t value) {
-int k = 0;
-for (int i = 1; i <= value; i++)
-if (value % i == 0)
-k += 1;
-if (k == 2)
-return true;
-else
-return false;
+    if (value <= 1)
+        return false;
+    for (int i = 2; i * i <= value; i++) {
+        if (value % i == 0)
+            return false;
+    }
+    return true;
 }
 
 uint64_t nPrime(uint64_t n) {
-// вставьте код функции
+    uint64_t num = 0;
+    uint64_t number = 0;
+    while (n > 0) {
+        if (checkPrime(num) == 1) {
+            number = num;
+            --n;
+        }
+        ++num;
+    }
+    return number;
 }
 
 uint64_t nextPrime(uint64_t value) {
-if (value <= 1)
-return 2;
-int prime = value;
-bool found = false;
-while (!found) {
-prime++;
-if (checkPrime(prime))
-found = true;
-}
-return prime;
+    while (true) {
+        value++;
+        if (checkPrime(value)) {
+            return value;
+        }
+    }
 }
 
 uint64_t sumPrime(uint64_t hbound) {
-int sum = 0;
-for (int i = hbound; i >= 2; i--)
-bool isPrime = checkPrime(i);
-if (isPrime)
-sum = sum + i;
-return sum;
+    uint64_t sum = 0;
+    hbound = hbound - 1;
+    while (hbound > 0) {
+        if (checkPrime(hbound)) {
+            sum += hbound;
+        }
+        --hbound;
+    }
+    return sum;
 }
